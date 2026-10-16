@@ -1,0 +1,3 @@
+import {_electron as electron} from 'playwright';import path from 'node:path';import fs from 'node:fs/promises';
+const root=process.cwd();const app=await electron.launch({args:[root,path.resolve(process.argv[2])],env:{...process.env,ELECTRON_RUN_AS_NODE:'',DWG_DESK_USER_DATA:path.resolve('../qa/profile')}});
+try {const page=await app.firstWindow();await page.waitForFunction(()=>window.__dwgDiagnostics?.state().entityCount>0&&!window.__dwgDiagnostics.state().busy,null,{timeout:90000});console.log(JSON.stringify(await page.evaluate(()=>window.__dwgDiagnostics.state().unitDetection),null,2));}finally{await app.close();}

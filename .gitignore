@@ -1,0 +1,9 @@
+node_modules/
+dist/
+public/wasm/
+*.log
+.DS_Store
+release/
+build/last-release-path.txt
+
+build/icon.iconset/

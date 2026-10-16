@@ -1,0 +1,101 @@
+{
+  "product": "DWG Desk",
+  "version": "1.3.1",
+  "platform": "macOS arm64",
+  "testedAt": "2026-10-16T16:57:13.075107+00:00",
+  "unitTests": {
+    "passed": 27,
+    "failed": 0
+  },
+  "packagedGuiChecks": {
+    "passed": 50,
+    "failed": 0
+  },
+  "verification": {
+    "codesignDeepStrict": "PASS — ad hoc, not notarized",
+    "hdiutilVerify": "PASS",
+    "sourceZipTest": "PASS"
+  },
+  "scope": "Individual RGB colors, layer inheritance, camera sectors, cable flags, symbol library, persistence, undo/redo and DWG/DXF colors. Existing camera and design workflows rechecked. Full viewer/unit-detection suite was previously accepted in 1.3.0 and was not repeated for this focused change.",
+  "suites": {
+    "colors": {
+      "version": "1.3.1",
+      "checks": [
+        "Existing v1 overlay opens unchanged with inherited camera, point and text colors",
+        "Camera color changes only the selected instance and its actual sector pixels",
+        "Color selection is one undoable and redoable edit",
+        "Reset restores layer inheritance while other cameras retain their individual overrides",
+        "Cable and linked flags support a custom color or the layer color",
+        "Points and text have independent colors, including arbitrary RGB values",
+        "Locked layers disable color changes and resetting",
+        "Saving a colored camera in the library preserves its color on the next placement",
+        "A library camera can also inherit the destination layer color",
+        "Colors, inheritance and reusable library definitions persist on disk and after restart"
+      ],
+      "errors": []
+    },
+    "design": {
+      "version": "1.3.1",
+      "checks": [
+        "Create a named drawing overlay layer",
+        "Middle-button panning during cable drawing stops on release and preserves the draft",
+        "Cable clicks create one route and a live total-length flag",
+        "Dragging a route vertex updates its length from 10 m to 8 m",
+        "Undo and redo restore the full route",
+        "Add an extra route-linked length flag",
+        "Move a length flag independently from its cable geometry",
+        "Draw a custom camera symbol, save its model and FOV, and place an instance",
+        "Edit camera rotation, range and size with a visible field of view",
+        "Move a camera together with its field of view",
+        "Add an installation point and editable text",
+        "Duplicate, delete and undo a drawn object",
+        "Save a reusable cable type in the local library",
+        "Overlay layers can be hidden and locked without editing the base drawing",
+        "Overlay geometry and metadata are persisted on disk",
+        "Another drawing has independent working layers",
+        "Restart restores the drawing overlays and reusable library without manual merging",
+        "Closing with an unfinished route completes and persists it before quitting"
+      ],
+      "errors": []
+    },
+    "camera": {
+      "version": "1.3.1",
+      "checks": [
+        "Placing a camera immediately selects it and exposes move/aim controls",
+        "Clicking the camera name selects an existing camera",
+        "Drag the camera center to move it without changing direction",
+        "Rotate the on-canvas direction handle while preserving position, FOV and range",
+        "A complete rotation gesture is one undoable and redoable change",
+        "Shift snaps direct rotation to 15-degree increments",
+        "Rotation controls remain usable after zooming",
+        "Move button previews then places the camera with a single click",
+        "Point at a world location to aim the camera without creating another instance",
+        "Escape and right-click discard aim and movement previews",
+        "Cancelling a drag also prevents its temporary position from reaching autosave",
+        "Locked camera layers reject direct manipulation",
+        "Camera position, direction and settings survive application restart"
+      ],
+      "errors": []
+    },
+    "export": {
+      "version": "1.3.1",
+      "checks": [
+        "DXF keeps exact RGB colors on cameras, sectors, cables and flags",
+        "DXF export contains the base, editable cable vertices, length flags, camera and Polish labels",
+        "Exported DXF reopens as ordinary CAD geometry without its local overlay",
+        "DWG retains exact RGB colors after conversion and independent WASM parsing",
+        "A real AutoCAD 2018 DWG reopens through the independent LibreDWG WASM reader",
+        "Overlay-only export keeps the original drawing coordinates and excludes the base geometry",
+        "Cancelling the native save dialog leaves the project open and unchanged",
+        "Choosing the source file as the export destination is rejected without modifying it",
+        "No renderer errors during the complete export workflow"
+      ],
+      "errors": [],
+      "files": [
+        "cad-demo-full.dxf",
+        "cad-demo-full.dwg",
+        "cad-installation-only.dxf"
+      ]
+    }
+  }
+}

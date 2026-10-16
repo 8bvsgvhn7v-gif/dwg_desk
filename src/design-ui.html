@@ -1,0 +1,31 @@
+<dialog id="layer-dialog" class="design-dialog small-dialog">
+  <form id="layer-form"><div class="dialog-heading"><h2>Warstwa robocza</h2><button type="button" data-close="layer-dialog" aria-label="Zamknij">×</button></div>
+    <label>Nazwa warstwy<input id="layer-name" required maxlength="100" placeholder="np. Monitoring — piętro 1"></label>
+    <label>Kolor<input id="layer-color" type="color" value="#a5ebbd"></label>
+    <div class="dialog-actions"><button type="button" data-close="layer-dialog">Anuluj</button><button class="primary" type="submit">Zapisz warstwę</button></div>
+  </form>
+</dialog>
+<dialog id="library-dialog" class="design-dialog library-dialog">
+  <div class="dialog-heading"><div><span class="eyebrow">TWOJA LOKALNA BIBLIOTEKA</span><h2>Symbole i typy kabli</h2></div><button data-close="library-dialog" aria-label="Zamknij">×</button></div>
+  <p class="muted">Zdefiniuj raz i używaj na kolejnych rysunkach. Wstawione elementy zachowują własne ustawienia.</p>
+  <div class="library-actions"><button id="new-symbol" class="primary">+ Własny symbol</button><button id="new-cable-type" class="outline">+ Typ kabla</button></div>
+  <h3>Kamery i symbole</h3><div id="library-symbols" class="library-grid"></div>
+  <h3>Typy kabli</h3><div id="library-cables" class="library-cables"></div>
+</dialog>
+<dialog id="symbol-dialog" class="design-dialog symbol-dialog">
+  <form id="symbol-form"><div class="dialog-heading"><div><span class="eyebrow">EDYTOR SYMBOLU</span><h2>Twój symbol, Twoje parametry</h2></div><button type="button" data-close="symbol-dialog" aria-label="Zamknij">×</button></div>
+    <div class="symbol-editor-body"><div><div id="symbol-tools" class="symbol-tools"><button type="button" data-shape="line" class="active">Linia</button><button type="button" data-shape="rect">Prostokąt</button><button type="button" data-shape="circle">Okrąg</button><button type="button" id="symbol-undo">Cofnij</button><button type="button" id="symbol-clear">Wyczyść</button></div><canvas id="symbol-canvas" width="440" height="360" aria-label="Obszar rysowania własnego symbolu"></canvas><p class="microcopy">Kliknij dwa punkty, aby narysować kształt. Krzyżyk to punkt wstawienia, prawa strona to kierunek patrzenia kamery.</p></div>
+    <div class="symbol-fields"><label>Nazwa w bibliotece<input id="symbol-name" required maxlength="100" placeholder="np. Kamera przy bramie"></label><label>Rodzaj<select id="symbol-kind"><option value="camera">Kamera</option><option value="symbol">Inny symbol</option></select></label><label>Model / opis<textarea id="symbol-model" rows="3" maxlength="1000" placeholder="Producent, model, rozdzielczość…"></textarea></label><label>Kąt widzenia w poziomie (°)<input id="symbol-fov" type="number" min="1" max="360" value="90" required></label><label class="switch-line symbol-color-setting"><input id="symbol-color-layer" type="checkbox" checked> Kolor warstwy po wstawieniu</label><label>Własny kolor symbolu<input id="symbol-color" type="color" value="#a5ebbd" disabled></label><button type="button" id="symbol-template" class="outline">Wstaw szablon kamery</button><p id="symbol-error" class="form-error" role="alert"></p></div></div>
+    <div class="dialog-actions"><button type="button" data-close="symbol-dialog">Anuluj</button><button class="primary" type="submit">Zapisz w bibliotece</button></div>
+  </form>
+</dialog>
+<dialog id="cable-type-dialog" class="design-dialog small-dialog"><form id="cable-type-form"><div class="dialog-heading"><h2>Typ kabla</h2><button type="button" data-close="cable-type-dialog" aria-label="Zamknij">×</button></div><label>Nazwa<input id="cable-type-name" required maxlength="100" placeholder="np. U/UTP kat. 6A"></label><label>Opis<textarea id="cable-type-description" rows="3" maxlength="1000"></textarea></label><label>Kolor trasy<input id="cable-type-color" type="color" value="#ffbf69"></label><div class="dialog-actions"><button type="button" data-close="cable-type-dialog">Anuluj</button><button class="primary" type="submit">Zapisz w bibliotece</button></div></form></dialog>
+<dialog id="cad-export-dialog" class="design-dialog small-dialog"><form id="cad-export-form">
+  <span class="eyebrow">PLIK DLA PROGRAMÓW CAD</span><h2>Eksport rysunku</h2>
+  <label>Format<select id="cad-export-format"><option value="dwg">DWG — AutoCAD 2018</option><option value="dxf">DXF — AutoCAD 2018</option></select></label>
+  <label class="switch-line"><input id="cad-export-base" type="checkbox" checked> Dołącz podkład DWG / DXF</label>
+  <p class="microcopy">Eksport obejmuje wszystkie Twoje warstwy, także ukryte. Kamery, kable, punkty i opisy stają się obiektami CAD. Flagi zachowują długość z chwili eksportu.</p>
+  <p class="microcopy">Konwersja działa lokalnie przez ODA File Converter. Zapisz jako nowy plik. Wyłączenie podkładu eksportuje samą instalację we współrzędnych oryginalnego rysunku.</p>
+  <p id="cad-export-error" class="form-error" role="alert"></p>
+  <div class="dialog-actions"><button id="cad-export-cancel" type="button" data-close="cad-export-dialog">Anuluj</button><button id="cad-export-submit" type="submit" class="primary">Eksportuj</button></div>
+</form></dialog>
