@@ -104,12 +104,18 @@ Otwórz **Biblioteka symboli i kabli**. Definicje są wspólne dla rysunków na 
 
 Zmiana wzorca dotyczy kolejnych wstawień. Już umieszczone elementy zachowują własne ustawienia.
 
+## Zapis do innego programu CAD
+
+Wybierz **Zapisz DWG / DXF** na górnym pasku lub **Cmd+S**, wybierz format i pozostaw zaznaczone dołączenie podkładu. Sprawdź **Wysokość opisów** w jednostkach rysunku — ten rozmiar nie zmienia się wraz z zoomem. Dodatkowe modele i parametry kamer są opcjonalne. Po kliknięciu **Zapisz plik…** wskaż nową nazwę. W drugim programie otwórz zapisany plik z instalacją, domyślnie z końcówką `_projekt`.
+
+Projekt z biblioteką i ustawieniami elementów zapisuje się na tym Macu automatycznie. Przycisk **Zapisz projekt lokalnie** w panelu Projekt wymusza ten lokalny zapis. Szczegóły i kopie zapasowe opisano w [instrukcji zapisu](data-and-export.md).
+
 ## Skróty
 
 | Skrót / przycisk | Działanie |
 | --- | --- |
 | Cmd+O | Otwórz rysunek. |
-| Cmd+S | Zapisz nakładkę i zakończ rozpoczętą trasę kabla. |
+| Cmd+S | Otwórz zapis DWG/DXF z naniesionymi elementami; zatwierdzenie zapisu kończy rozpoczętą trasę kabla. |
 | M / V / F | Mierz / Przesuwaj / Dopasuj. |
 | S / Option | Przełącz przyciąganie / chwilowo je wyłącz. |
 | Lewy klik | Dodaj punkt pomiaru lub kabla; w trybie Zaznacz wybierz element. |

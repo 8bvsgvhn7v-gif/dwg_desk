@@ -1,6 +1,12 @@
 import {validateDesign,pathLength,pointOnPath,objectColor} from './design-model.js';
 const unitCodes={unit:0,in:1,ft:2,mi:3,mm:4,cm:5,m:6,km:7,yd:10,dm:14};
 const meters={mm:.001,cm:.01,dm:.1,m:1,km:1000,in:.0254,ft:.3048,yd:.9144,mi:1609.344};
+// Text is measured in drawing units, never in pixels or current viewport zoom.
+export function suggestCadTextHeight(design,unit='unit'){
+  const sizes=design.objects.filter(o=>['symbol','point'].includes(o.kind)&&Number.isFinite(o.size)&&o.size>0).map(o=>o.size).sort((a,b)=>a-b);
+  const size=sizes.length?sizes[Math.floor(sizes.length/2)]*.5:(meters[unit] ? 0.25/meters[unit] : 1);
+  return Math.max(1e-8,Math.min(1e9,Number(size.toPrecision(6))));
+}
 export function parseDxf(text){
   if(typeof text!=='string'||text.length>256*1024*1024||text.startsWith('AutoCAD Binary DXF'))throw new Error('Eksport wymaga tekstowego pliku DXF.');
   const lines=text.replace(/^\uFEFF/,'').split(/\r\n|\n|\r/);if(lines.at(-1)==='')lines.pop();
@@ -25,7 +31,7 @@ function aci(color){
   for(let h=0;h<24;h++)for(let j=0;j<10;j++){const v=[255,165,127,76,38][Math.floor(j/2)],s=j%2?.5:1,c=v*s,x=c*(1-Math.abs((h/4)%2-1)),m=v-c;const a=h/4;const channels=a<1?[c,x,0]:a<2?[x,c,0]:a<3?[0,c,x]:a<4?[0,x,c]:a<5?[x,0,c]:[c,0,x];test(10+h*10+j,channels.map(n=>Math.round(n+m)));}return best;
 }
 export function mergeDesignDxf(base,design,options={}){
-  design=validateDesign(design);let pairs=parseDxf(base);const toWorld=worldTransform(options.sceneTransform),height=options.textHeight??1;
+  design=validateDesign(design);let pairs=parseDxf(base);const toWorld=worldTransform(options.sceneTransform),height=options.textHeight??suggestCadTextHeight(design,options.unit);
   if(!Number.isFinite(height)||height<1e-8||height>1e9)throw new Error('Nieprawidłowy rozmiar opisów.');
   const unit=options.unit||'unit',display=options.displayUnit||unit;if(!(unit in unitCodes)||!(display in unitCodes))throw new Error('Nieprawidłowa jednostka eksportu.');
   let handle=1n;for(const [c,v]of pairs)if((c===5||c===105)&&/^[0-9a-f]+$/i.test(v.trim())){const n=BigInt('0x'+v.trim());if(n>=handle)handle=n+1n;}
@@ -51,7 +57,7 @@ export function mergeDesignDxf(base,design,options={}){
       const a=o.rotation*Math.PI/180,transform=p=>({x:o.position.x+o.size*(Math.cos(a)*p.x-Math.sin(a)*p.y),y:o.position.y+o.size*(Math.sin(a)*p.x+Math.cos(a)*p.y)});
       for(const s of o.symbol.strokes){if(s.type==='circle')circle(transform(s.center),s.radius*o.size);else poly(s.points.map(transform),s.closed);}
       text({x:o.position.x,y:o.position.y+o.size+height},o.name);
-      const info=[o.description,o.symbol.kind==='camera'?`${o.fov}° · ${length(o.range)}`:''].filter(Boolean).join(' · ');if(info)mtext({x:o.position.x,y:o.position.y+o.size+2.5*height},info,height*.8);
+      const info=[o.description,o.symbol.kind==='camera'?`${o.fov}° · ${length(o.range)}`:''].filter(Boolean).join(' · ');if(info&&options.includeCameraDetails===true)mtext({x:o.position.x,y:o.position.y+o.size+2.5*height},info,height*.8);
       if(o.symbol.kind==='camera'&&o.showFov&&o.range){const sector=[o.position];for(let i=0;i<=64;i++){const a=(o.rotation-o.fov/2+o.fov*i/64)*Math.PI/180;sector.push({x:o.position.x+Math.cos(a)*o.range,y:o.position.y+Math.sin(a)*o.range});}poly(sector,true);}
     }else if(o.kind==='point'){circle(o.position,o.size);line({x:o.position.x-o.size*1.5,y:o.position.y},{x:o.position.x+o.size*1.5,y:o.position.y});line({x:o.position.x,y:o.position.y-o.size*1.5},{x:o.position.x,y:o.position.y+o.size*1.5});text({x:o.position.x+o.size*2,y:o.position.y+height},o.name);}
     else if(o.kind==='text')text(o.position,o.name,o.size,o.rotation);

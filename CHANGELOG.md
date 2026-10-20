@@ -1,5 +1,16 @@
 # Historia zmian
 
+## 1.3.2 — 2026-10-20
+
+- Naprawiony rozmiar opisów w eksportowanym CAD: wysokość wynika z jednostek modelu i wielkości symboli, zamiast z bieżącego powiększenia ekranu.
+- Ustawienie wysokości opisów oraz opcjonalnych modeli i parametrów kamer w oknie zapisu, zapamiętywane dla projektu.
+
+- Główny przycisk **Zapisz DWG / DXF** i Cmd+S prowadzą do zapisu pliku z naniesionymi elementami, który można otworzyć w innym programie CAD.
+- Lokalny zapis projektu ma osobny przycisk **Zapisz projekt lokalnie** w panelu Projekt; automatyczny zapis działa nadal.
+- Okno zapisu domyślnie dołącza podkład, także po wcześniejszym eksporcie samej instalacji, i wybiera format otwartego rysunku.
+- Komunikat po zapisie wskazuje nazwę pliku do otwarcia w drugim programie.
+- Sprawdzenie zapisu przez menu Cmd+S, osadzania niedokończonej trasy i ponownego otwierania DWG/DXF bez lokalnej nakładki.
+
 ## 1.3.1
 
 - Własne kolory kamer, kabli, symboli, punktów i opisów.

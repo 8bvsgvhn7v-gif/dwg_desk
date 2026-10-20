@@ -71,6 +71,8 @@ export function validateDesign(design){
   if(count>500000)fail();
   const units=['auto','unit','mm','cm','dm','m','km','in','ft','yd','mi'];
   if(!design.settings||!units.includes(design.settings.drawingUnit)||!units.slice(1).includes(design.settings.displayUnit))fail();
+  if(design.settings.cadTextHeight!==undefined&&(!Number.isFinite(design.settings.cadTextHeight)||design.settings.cadTextHeight<1e-8||design.settings.cadTextHeight>1e9))fail();
+  if(design.settings.cadCameraDetails!==undefined&&typeof design.settings.cadCameraDetails!=='boolean')fail();
   return copy(design);
 }
 export function translateObject(object,dx,dy){

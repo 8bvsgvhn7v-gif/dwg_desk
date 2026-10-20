@@ -6,6 +6,7 @@ import { MeasurementSession } from './measurement-session.js';
 import { bindPanGesture } from './pan-gesture.js';
 import { dxfForViewer } from './dxf-encoding.js';
 import { Designer } from './designer.js';
+import { suggestCadTextHeight } from '../shared/cad-export.js';
 import './style.css';
 
 const $ = id => document.getElementById(id);
@@ -273,18 +274,22 @@ $('pan').onclick = () => setMode('pan');
 $('measure').onclick = $('start-measure').onclick = () => setMode('measure');
 $('design').onclick=()=>setMode('select');
 document.querySelectorAll('[data-panel]').forEach(b=>b.onclick=()=>{if(source)setMode(b.dataset.panel==='design'?'select':'measure');});
-$('save-project').onclick=async()=>{try{document.activeElement?.blur();await designer.flush(true);status('Warstwy robocze zapisane lokalnie');}catch(error){notice(`Nie zapisano warstw: ${error.message}`);}};
-$('export-cad').onclick=()=>{if(source&&!exportBusy){$('cad-export-error').textContent='';$('cad-export-dialog').showModal();}};
+$('save-project').onclick=async()=>{try{document.activeElement?.blur();await designer.flush(true);status('Projekt zapisany w DWG Desk · do innych programów: Zapisz DWG / DXF');}catch(error){notice(`Nie zapisano warstw: ${error.message}`);}};
+$('export-cad').onclick=()=>{if(source&&!busy&&!exportBusy){document.activeElement?.blur();$('cad-export-format').value=/\.dwg$/i.test(fileName)?'dwg':'dxf';$('cad-export-base').checked=true;$('cad-export-text-height').value=designer.state.settings.cadTextHeight??suggestCadTextHeight(designer.state,drawingUnit);$('cad-export-text-unit').textContent=drawingUnit==='unit'?'j. rys.':drawingUnit;$('cad-export-details').checked=designer.state.settings.cadCameraDetails===true;$('cad-export-error').textContent='';$('cad-export-dialog').showModal();}};
 $('cad-export-form').onsubmit=async event=>{
   event.preventDefault();if(exportBusy||!sourceBytes)return;exportBusy=true;
   const submit=$('cad-export-submit');submit.disabled=true;$('cad-export-cancel').disabled=true;submit.textContent='Konwertuję lokalnie…';$('cad-export-error').textContent='';
   try{
-    document.activeElement?.blur();await designer.flush(true);
+    document.activeElement?.blur();
+    const textHeight=Number($('cad-export-text-height').value);
+    if(!Number.isFinite(textHeight)||textHeight<1e-8||textHeight>1e9)throw new Error('Podaj dodatnią wysokość opisów w jednostkach rysunku.');
+    const includeCameraDetails=$('cad-export-details').checked;
+    designer.settingsChanged({cadTextHeight:textHeight,cadCameraDetails:includeCameraDetails});await designer.flush(true);
     const doc=viewer.getDocument();
-    const result=await window.desktop.exportCad({format:$('cad-export-format').value,includeBase:$('cad-export-base').checked,name:fileName,bytes:sourceBytes,design:structuredClone(designer.state),unit:drawingUnit,displayUnit:drawingUnit==='unit'?'unit':displayUnit,textHeight:12/viewer.renderer.getViewState().scale,sceneTransform:doc.metadata?.sceneTransformApplied?doc.savedView?.sceneTransform:null});
-    if(result){$('cad-export-dialog').close();status(`Zapisano ${result.fileName} · ${result.objects} elementów projektu`);if(result.warningCount)notice(`Plik CAD zapisano z uwagami konwertera (${result.warningCount}).\n`+result.warnings.slice(0,5).join('\n'));else notice('');}
+    const result=await window.desktop.exportCad({format:$('cad-export-format').value,includeBase:$('cad-export-base').checked,name:fileName,bytes:sourceBytes,design:structuredClone(designer.state),unit:drawingUnit,displayUnit:drawingUnit==='unit'?'unit':displayUnit,textHeight,includeCameraDetails,sceneTransform:doc.metadata?.sceneTransformApplied?doc.savedView?.sceneTransform:null});
+    if(result){$('cad-export-dialog').close();status(`Zapisano ${result.fileName} z ${result.objects} elementami · otwórz ten plik w drugim programie`);if(result.warningCount)notice(`Plik CAD zapisano z uwagami konwertera (${result.warningCount}).\n`+result.warnings.slice(0,5).join('\n'));else notice('');}
   }catch(error){$('cad-export-error').textContent=error.message;}
-  finally{exportBusy=false;submit.disabled=false;$('cad-export-cancel').disabled=false;submit.textContent='Eksportuj';}
+  finally{exportBusy=false;submit.disabled=false;$('cad-export-cancel').disabled=false;submit.textContent='Zapisz plik…';}
 };
 $('cad-export-dialog').addEventListener('cancel',event=>{if(exportBusy)event.preventDefault();});
 $('open').onclick = $('empty-open').onclick = chooseFile;

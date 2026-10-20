@@ -84,6 +84,8 @@ DWG_DESK_APP="/ścieżka/DWG Desk.app/Contents/MacOS/DWG Desk" npm run test:came
 
 Raport [1.3.1](validation-1.3.1.json) obejmuje 27 testów logiki i 50 kontroli spakowanej aplikacji: 10 kolorów, 18 projektowania, 13 kamer i 9 eksportu. Pełny zestaw podglądu i rozpoznawania jednostek został wcześniej zaakceptowany w 1.3.0; nie powtarzano go przy zmianie samych kolorów. Repozytorium nie zawiera skonfigurowanego CI.
 
+Raport [1.3.2](validation-1.3.2.json) obejmuje 29 testów logiki oraz 34 kontrole w finalnej paczce macOS: 16 zapisu/eksportu i 18 projektowania. Dodatkowe kontrole sprawdzają niezależność wysokości tekstu od zoomu, zapis przez Cmd+S oraz działanie bez lokalnej nakładki.
+
 ## Budowanie DMG i ZIP
 
 ```sh

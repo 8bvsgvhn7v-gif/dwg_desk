@@ -4,7 +4,7 @@ import {mkdtemp,mkdir,readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 const root=process.cwd(),qa=path.resolve('../qa');await mkdir(qa,{recursive:true});
 const profile=await mkdtemp(path.join(qa,'design-profile-'));
-const report={version:'1.3.1',checks:[],errors:[]};
+const report={version:'1.3.2',checks:[],errors:[]};
 const check=name=>{report.checks.push(name);console.log('PASS',name);};
 const launch=async()=>{const result=await electron.launch({executablePath:process.env.DWG_DESK_APP||undefined,args:process.env.DWG_DESK_APP?[]:[root],env:{...process.env,ELECTRON_RUN_AS_NODE:'',DWG_DESK_USER_DATA:profile}});await result.firstWindow();await result.evaluate(({BrowserWindow})=>{const w=BrowserWindow.getAllWindows()[0];w.webContents.setBackgroundThrottling(false);w.hide();});return result;};
 let app=await launch();

@@ -20,13 +20,13 @@ DWG Desk pozwala otworzyć rysunek CAD, zmierzyć trasę i nanieść własne kab
 | Lokalna biblioteka | Własne symbole i typy kabli do użycia na kolejnych rysunkach. |
 | Eksport | DWG/DXF 2018 z podkładem lub sama instalacja; osobno CSV z pomiarami. |
 
-**Podkład pozostaje niezmieniony.** Dodane elementy zapisują się jako lokalna nakładka. Aby przekazać rysunek z instalacją innej osobie, użyj **Eksport CAD**.
+**Podkład pozostaje niezmieniony.** Dodane elementy zapisują się jako lokalna nakładka. Aby przekazać rysunek z instalacją innej osobie, użyj **Zapisz DWG / DXF**.
 
 ## Wymagania i instalacja
 
-Wydanie **1.3.1** przygotowano dla **macOS 13+ i Apple Silicon**. Nie przygotowano paczki dla komputerów Intel ani wydania Windows/Linux.
+Wydanie **1.3.2** przygotowano dla **macOS 13+ i Apple Silicon**. Nie przygotowano paczki dla komputerów Intel ani wydania Windows/Linux.
 
-1. Otwórz plik `DWG-Desk-1.3.1-mac-arm64.dmg` otrzymany z wydaniem.
+1. Otwórz plik `DWG-Desk-1.3.2-mac-arm64.dmg` otrzymany z wydaniem.
 2. Przeciągnij **DWG Desk** do **Aplikacji**.
 3. Uruchom program i wybierz **Otwórz rysunek** lub przeciągnij plik DWG/DXF do okna.
 
@@ -40,7 +40,7 @@ Paczka jest podpisana lokalnie ad hoc, bez notaryzacji Apple. Szczegóły instal
 2. Włącz **Mierz**. Lewy przycisk dodaje punkty, prawy przycisk lub Enter kończy pomiar.
 3. Wybierz **Projektuj** i dodaj kabel, kamerę albo punkt.
 4. Zaznacz element, aby zmienić jego właściwości i kolor. Kamerę możesz przesunąć myszą lub obrócić uchwytem kierunku.
-5. Kliknij **Zapisz**, aby wymusić zapis nakładki, lub **Eksport CAD**, aby utworzyć nowy DWG/DXF.
+5. Kliknij **Zapisz DWG / DXF** lub naciśnij **Cmd+S**, zostaw zaznaczone **Dołącz podkład DWG / DXF** i zapisz nowy plik. W innym programie CAD otwórz właśnie ten plik. Projekt DWG Desk zapisuje się lokalnie automatycznie.
 
 Możesz też wybrać **Wypróbuj na rysunku przykładowym** i sprawdzić funkcje bez własnego pliku.
 
@@ -62,7 +62,7 @@ Sektor kamery jest rzutem geometrycznym — nie uwzględnia przeszkód ani wysok
 
 ## Weryfikacja wydania
 
-Dla 1.3.1 przeszło **27 testów logiki oraz 50 scenariuszy w spakowanej aplikacji macOS**. Sprawdzono kolory, bibliotekę, zapis po restarcie, edycję kamer i tras oraz eksport z ponownym odczytem DWG/DXF. [Raport weryfikacji](docs/validation-1.3.1.json) opisuje dokładny zakres; nie jest deklaracją zgodności ze wszystkimi plikami DWG.
+Dla 1.3.2 przeszło **29 testów logiki oraz 34 kontrole spakowanej aplikacji macOS**. Sprawdzono zapis pliku przez Cmd+S, stałe wysokości opisów, ponowny odczyt DWG/DXF, zapis lokalny i edycję instalacji. [Raport 1.3.2](docs/validation-1.3.2.json) opisuje zakres. Pozostaje dostępny [raport 1.3.1](docs/validation-1.3.1.json) z wcześniejszej weryfikacji kolorów i kamer. Raporty nie są deklaracją zgodności ze wszystkimi plikami DWG.
 
 ## Licencja
 

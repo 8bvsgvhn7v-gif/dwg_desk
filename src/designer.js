@@ -18,7 +18,7 @@ export class Designer {
   get dirty(){return this.revision!==this.savedRevision;}
   get hasDraft(){return this.draft.length>0||Boolean(this.drag);}
   installPanel(){
-    $('design-panel').innerHTML=`<div class="design-panel-heading"><span class="eyebrow">WARSTWY ROBOCZE DWG DESK</span><h2>Projekt instalacji</h2><p class="microcopy">Elementy zapisują się lokalnie i wracają po otwarciu tego samego rysunku.</p></div>
+    $('design-panel').innerHTML=`<div class="design-panel-heading"><span class="eyebrow">WARSTWY ROBOCZE DWG DESK</span><h2>Projekt instalacji</h2><p class="microcopy">Projekt zapisuje się automatycznie na tym Macu. Aby otworzyć go w innym programie, użyj „Zapisz DWG / DXF”.</p></div>
     <button id="open-library" class="outline">Biblioteka symboli i kabli</button>
     <label class="field-label">Aktywna warstwa<select id="active-layer"></select></label>
     <div id="placement-settings"><label class="field-label">Typ kabla<select id="cable-preset"></select></label><label class="field-label">Symbol<select id="symbol-preset"></select></label></div>
@@ -34,7 +34,7 @@ export class Designer {
       <div id="position-properties"><div class="field-pair"><label class="field-label">X<input id="object-x" type="number" step="any"></label><label class="field-label">Y<input id="object-y" type="number" step="any"></label></div><div class="field-pair"><label class="field-label">Obrót (°)<input id="object-rotation" type="number" min="-360" max="360" step="1"></label><label class="field-label">Rozmiar <span class="design-unit"></span><input id="object-size" type="number" min="0.000001" step="any"></label></div></div>
       <div id="camera-properties"><div class="field-pair"><label class="field-label">Kąt widzenia (°)<input id="object-fov" type="number" min="1" max="360" step="1"></label><label class="field-label">Zasięg <span class="design-unit"></span><input id="object-range" type="number" min="0" step="any"></label></div><label class="switch-line"><input id="object-show-fov" type="checkbox"> Pokaż sektor obserwacji</label><p class="microcopy">Sektor pokazuje kierunek, kąt i zasięg w rzucie 2D. Nie uwzględnia przeszkód ani wysokości montażu.</p></div>
       <div class="property-actions"><button id="duplicate-object" type="button">Duplikuj</button><button id="save-object-library" type="button">Do biblioteki</button><button id="delete-object" type="button" class="danger">Usuń</button></div>
-    </form><div class="design-summary"><span id="design-object-count">0 elementów</span><span id="design-save-status">Brak rysunku</span></div>`;
+    </form><div class="design-summary"><span id="design-object-count">0 elementów</span><span id="design-save-status">Brak rysunku</span></div><button id="save-project" title="Zapisz projekt tylko w DWG Desk; plik CAD zapiszesz przyciskiem na górnym pasku" disabled>Zapisz projekt lokalnie</button>`;
   }
   bindUI(){
     document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).close());
@@ -93,7 +93,7 @@ export class Designer {
     this.key=key;this.history=new DesignHistory(saved||newDesign());if(!saved)this.state.settings=copy(settings);this.revision=this.savedRevision=0;this.activeLayer=this.state.layers[0].id;this.selected=null;this.draft=[];this.flagTarget=null;this.render();return saved?.settings;
   }
   reset(){this.loadSequence++;clearTimeout(this.saveTimer);this.cancelDrag();this.key=null;this.history=new DesignHistory();this.selected=null;this.draft=[];this.revision=this.savedRevision=0;this.render();}
-  settingsChanged(settings){if(this.key)this.mutate(s=>s.settings=copy(settings));}
+  settingsChanged(settings){if(this.key)this.mutate(s=>s.settings={...s.settings,...copy(settings)});}
   setMode(mode){
     if(this.mode==='cable'&&mode!=='cable')this.finishCable();this.cancelDrag();this.action=null;this.mode=mode;this.draft=[];this.flagTarget=null;this.hover=null;this.api.canvas().style.cursor='';
     if(['cables','cameras','points'].includes(this.activeLayer)){const target={cable:'cables',symbol:'cameras',point:'points',text:'points'}[mode];if(target&&this.layer(target))this.activeLayer=target;this.renderLayers();}
@@ -121,7 +121,7 @@ export class Designer {
     }
     $('design-layers-section').hidden=!this.key;
   }
-  renderSaveStatus(error=false){$('design-save-status').textContent=error?'Błąd zapisu — kliknij Zapisz':!this.key?'Brak rysunku':this.dirty?'Zapisywanie…':'Zapisano lokalnie';$('save-project').disabled=!this.key;$('save-project').classList.toggle('unsaved',this.dirty);}
+  renderSaveStatus(error=false){$('design-save-status').textContent=error?'Błąd zapisu lokalnego':!this.key?'Brak rysunku':this.dirty?'Zapisywanie…':'Zapisano lokalnie';$('save-project').disabled=!this.key;$('save-project').classList.toggle('unsaved',this.dirty);}
   render(){this.renderLayers();this.renderProperties();this.updateHint();this.renderSaveStatus();$('design-undo').disabled=!this.history.undoStack.length;$('design-redo').disabled=!this.history.redoStack.length;$('design-object-count').textContent=`${this.state.objects.length} elementów`;}
   renderProperties(){
     const o=this.object();$('design-panel').classList.toggle('has-selection',Boolean(o));$('object-properties').hidden=!o;$('selection-empty').hidden=Boolean(o);

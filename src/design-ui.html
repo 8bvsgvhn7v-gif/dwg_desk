@@ -21,11 +21,14 @@
 </dialog>
 <dialog id="cable-type-dialog" class="design-dialog small-dialog"><form id="cable-type-form"><div class="dialog-heading"><h2>Typ kabla</h2><button type="button" data-close="cable-type-dialog" aria-label="Zamknij">×</button></div><label>Nazwa<input id="cable-type-name" required maxlength="100" placeholder="np. U/UTP kat. 6A"></label><label>Opis<textarea id="cable-type-description" rows="3" maxlength="1000"></textarea></label><label>Kolor trasy<input id="cable-type-color" type="color" value="#ffbf69"></label><div class="dialog-actions"><button type="button" data-close="cable-type-dialog">Anuluj</button><button class="primary" type="submit">Zapisz w bibliotece</button></div></form></dialog>
 <dialog id="cad-export-dialog" class="design-dialog small-dialog"><form id="cad-export-form">
-  <span class="eyebrow">PLIK DLA PROGRAMÓW CAD</span><h2>Eksport rysunku</h2>
+  <span class="eyebrow">PLIK DLA PROGRAMÓW CAD</span><h2>Zapisz rysunek z instalacją</h2><p class="microcopy">Nowy plik będzie zawierał naniesione kamery, kable i pozostałe elementy. Otwórz go w drugim programie CAD.</p>
   <label>Format<select id="cad-export-format"><option value="dwg">DWG — AutoCAD 2018</option><option value="dxf">DXF — AutoCAD 2018</option></select></label>
+  <label>Wysokość opisów (<span id="cad-export-text-unit">j. rys.</span>)<input id="cad-export-text-height" type="number" required min="0.00000001" max="1000000000" step="any"></label>
+  <p class="microcopy">Rozmiar w jednostkach rysunku, niezależny od powiększenia. Dotyczy nazw kamer, punktów i flag kablowych; osobne opisy zachowują swój rozmiar.</p>
+  <label class="switch-line"><input id="cad-export-details" type="checkbox"> Dołącz modele i parametry kamer</label>
   <label class="switch-line"><input id="cad-export-base" type="checkbox" checked> Dołącz podkład DWG / DXF</label>
   <p class="microcopy">Eksport obejmuje wszystkie Twoje warstwy, także ukryte. Kamery, kable, punkty i opisy stają się obiektami CAD. Flagi zachowują długość z chwili eksportu.</p>
   <p class="microcopy">Konwersja działa lokalnie przez ODA File Converter. Zapisz jako nowy plik. Wyłączenie podkładu eksportuje samą instalację we współrzędnych oryginalnego rysunku.</p>
   <p id="cad-export-error" class="form-error" role="alert"></p>
-  <div class="dialog-actions"><button id="cad-export-cancel" type="button" data-close="cad-export-dialog">Anuluj</button><button id="cad-export-submit" type="submit" class="primary">Eksportuj</button></div>
+  <div class="dialog-actions"><button id="cad-export-cancel" type="button" data-close="cad-export-dialog">Anuluj</button><button id="cad-export-submit" type="submit" class="primary">Zapisz plik…</button></div>
 </form></dialog>

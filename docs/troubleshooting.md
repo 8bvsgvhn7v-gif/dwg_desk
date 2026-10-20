@@ -5,6 +5,8 @@
 | Objaw | Co sprawdzić |
 | --- | --- |
 | macOS blokuje pierwsze uruchomienie | Paczka jest podpisana ad hoc, bez notaryzacji. Sprawdź pochodzenie pliku i skorzystaj z procedury w [instalacji](installation.md). |
+| Dodane kamery i kable nie są widoczne w innym programie | Użyj **Zapisz DWG / DXF** (w 1.3.1: **Eksport CAD**) z dołączonym podkładem. Otwórz utworzony plik `_projekt`, a nie oryginał. **Zapisz / Cmd+S** w wersji 1.3.1 zapisywał tylko nakładkę lokalną. |
+| Opisy w wyeksportowanym pliku są ogromne lub nakładają się | Zainstaluj 1.3.2 i ponownie zapisz oryginalny projekt do CAD. Wcześniej ich wysokość zależała od zoomu. W oknie zapisu ustaw **Wysokość opisów** w jednostkach rysunku; modele i parametry kamer dołączaj tylko w razie potrzeby. |
 | Rysunek jest niewidoczny lub bardzo mały | Użyj **Dopasuj**. Sprawdź widoczność warstw. Pojedyncze obiekty daleko od modelu mogą powiększać jego zakres. |
 | Fragmentów rysunku brakuje | Sprawdź komunikat o pominiętych encjach. Program obsługuje model 2D; nie wszystkie obiekty 3D, proxy, AEC, tabele i osadzone obiekty są renderowane. |
 | Wynik pomiaru jest w „j. rys.” | Rysunek nie zawiera jednoznacznej obsługiwanej jednostki. Ustaw ją ręcznie, korzystając z dokumentacji podkładu. Sama skala wydruku nie rozstrzyga jednostki. |
