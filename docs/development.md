@@ -101,3 +101,7 @@ Nie dodawaj do Git `node_modules/`, `dist/`, `public/wasm/`, `release/` ani prof
 ## Pochodzenie danych testowych
 
 Pliki `test/fixtures/Line-2000.dwg`, `Line-2018.dwg` i `TS1-2000.dwg` pochodzą z publicznego [korpusu testowego LibreDWG](https://github.com/LibreDWG/libredwg/tree/master/test/test-data). Służą do regresji czytnika. `public/demo.dxf` jest demonstracją generowaną przez `scripts/demo.mjs`. Prywatne rysunki użytkownika nie są częścią repozytorium.
+
+W 1.3.3 testy eksportu obejmują również wybór kolorów na białe tło, grubości CAD, szerokości polilinii i ich zachowanie po konwersji DWG → DXF. Wyniki: [raport 1.3.3](validation-1.3.3.json).
+
+Parametry DXF opierają się na dokumentacji Autodesk: [grubość encji, kod 370](https://help.autodesk.com/cloudhelp/2024/ENU/AutoCAD-DXF/files/GUID-3610039E-27D1-4E23-B6D3-7E60B22BB5BD.htm), [szerokość LWPOLYLINE, kod 43](https://help.autodesk.com/cloudhelp/2020/ENU/AutoCAD-DXF/files/GUID-748FC305-F3F2-4F74-825A-61F04D757A50.htm) i [zmienne nagłówka](https://help.autodesk.com/cloudhelp/2023/ENU/AutoCAD-DXF/files/GUID-A85E8E67-27CD-4C59-BE61-4DC9FADBE74A.htm).

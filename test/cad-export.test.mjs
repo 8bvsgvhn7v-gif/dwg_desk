@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';import path from 'node:path';import os from 'node:os';
 import {newDesign,DEFAULT_LIBRARY,copy,validateDesign} from '../shared/design-model.js';
-import {mergeDesignDxf,parseDxf,records,section,worldTransform,verifyExportLayers} from '../shared/cad-export.js';
+import {mergeDesignDxf,parseDxf,records,section,worldTransform,verifyExportLayers,cadExportColor,suggestCadCableWidth} from '../shared/cad-export.js';
 import engine from '../electron/cad-export.cjs';
 const template=await readFile(new URL('../shared/templates/empty-r2000.dxf',import.meta.url),'latin1');
 const design=()=>{const d=newDesign();d.objects.push({id:'cable',kind:'cable',layerId:'cables',name:'Kabel Łączność',description:'',color:'#ffbf69',cableType:'UTP',points:[{x:0,y:0},{x:6000,y:0},{x:6000,y:4000}],flags:[{id:'flag',ratio:.5,position:{x:2000,y:1000}}]});d.objects.push({id:'camera',kind:'symbol',layerId:'cameras',name:'CAM-01',description:'Kamera 4 MP',symbol:copy(DEFAULT_LIBRARY.symbols[0]),position:{x:1500,y:1500},rotation:135,fov:90,range:2000,size:100,showFov:true});return d;};
@@ -35,4 +35,37 @@ test('export label preferences remain optional in existing projects and reject i
  const d=design();assert.doesNotThrow(()=>validateDesign(d));d.settings.cadTextHeight=.75;d.settings.cadCameraDetails=false;assert.doesNotThrow(()=>validateDesign(d));
  for(const invalid of [0,-1,NaN,Infinity,1e10,'1']){const bad=copy(d);bad.settings.cadTextHeight=invalid;assert.throws(()=>validateDesign(bad));}
  const bad=copy(d);bad.settings.cadCameraDetails='yes';assert.throws(()=>validateDesign(bad));
+});
+
+const exportedEntities=text=>{const p=parseDxf(text),s=section(p,'ENTITIES');return records(p.slice(s.start+2,s.end));};
+const field=(r,c)=>r.find(p=>p[0]===c)?.[1];
+test('white-background export makes pale colors readable without changing project or base entities',()=>{
+ const palette=['#ffbf69','#a5ebbd','#80c7ff','#ff7f83','#ffe066','#c6a0ff','#ff8cce','#ffffff','#000000','#123456'];
+ for(const color of palette){
+  const result=cadExportColor(color,'white'),rgb=[1,3,5].map(i=>parseInt(result.slice(i,i+2),16)/255);
+  const lum=rgb.reduce((s,c,i)=>s+[.2126,.7152,.0722][i]*(c<=.04045?c/12.92:((c+.055)/1.055)**2.4),0);
+  assert.ok(1.05/(lum+.05)>=4.5,`${color} → ${result}`);assert.equal(cadExportColor(color,'original'),color);
+ }
+ assert.equal(cadExportColor('#123456','white'),'#123456');
+ const d=design(),before=copy(d),base=mergeDesignDxf(template,design()).text;
+ const result=mergeDesignDxf(base,d,{colorMode:'white'}),es=exportedEntities(result.text),original=exportedEntities(base);
+ assert.deepEqual(es.slice(0,original.length),original);assert.deepEqual(d,before);
+ const added=es.slice(original.length);assert.ok(added.every(r=>field(r,420)===String(parseInt(cadExportColor(field(r,8).includes('Kamery')?'#a5ebbd':'#ffbf69','white').slice(1),16))));
+});
+test('CAD strokes and model-space widths persist separately without changing coordinates or length',()=>{
+ const d=design(),width=suggestCadCableWidth(.75);assert.equal(width,.1875);
+ const r=mergeDesignDxf(template,d,{unit:'mm',displayUnit:'m',cableWidth:width,lineWeight:50}),es=exportedEntities(r.text);
+ assert.equal(field(es[0],43),String(width));assert.equal(field(es[0],370),'50');
+ assert.deepEqual(es[0].filter(p=>p[0]===10).map(p=>Number(p[1])),[0,6000,6000]);assert.match(r.text,/10 m/);
+ const camera=es.filter(r=>field(r,8)==='DWGDesk_Kamery'),sector=camera.find(r=>Number(field(r,90))===66);
+ assert.equal(field(sector,43),'0');assert.equal(field(sector,370),'18');
+ assert.ok(camera.filter(r=>field(r,0)==='LWPOLYLINE'&&r!==sector).every(r=>Number(field(r,43))===width/2));
+ assert.ok(es.filter(r=>field(r,0)==='TEXT').every(r=>field(r,370)==='25'));
+ const p=parseDxf(r.text),i=p.findIndex(p=>p[0]===9&&p[1]==='$LWDISPLAY');assert.deepEqual(p[i+1],[290,'1']);
+ assert.equal(field(exportedEntities(mergeDesignDxf(template,d,{cableWidth:0}).text)[0],43),'0');
+ for(const options of [{cableWidth:-1},{cableWidth:NaN},{cableWidth:'1'},{lineWeight:34},{lineWeight:'35'},{colorMode:'unknown'}])assert.throws(()=>mergeDesignDxf(template,d,options),/wygląd/);
+});
+test('line appearance preferences are backward compatible and reject invalid persisted values',()=>{
+ const d=design();assert.doesNotThrow(()=>validateDesign(d));Object.assign(d.settings,{cadColorMode:'white',cadLineWeight:35,cadCableWidth:0});assert.doesNotThrow(()=>validateDesign(d));
+ for(const invalid of [{cadColorMode:'invalid'},{cadLineWeight:NaN},{cadLineWeight:10000},{cadCableWidth:-1},{cadCableWidth:Infinity},{cadCableWidth:'0'}]){const bad=copy(d);Object.assign(bad.settings,invalid);assert.throws(()=>validateDesign(bad));}
 });

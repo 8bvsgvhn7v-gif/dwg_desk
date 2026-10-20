@@ -23,6 +23,10 @@
 <dialog id="cad-export-dialog" class="design-dialog small-dialog"><form id="cad-export-form">
   <span class="eyebrow">PLIK DLA PROGRAMÓW CAD</span><h2>Zapisz rysunek z instalacją</h2><p class="microcopy">Nowy plik będzie zawierał naniesione kamery, kable i pozostałe elementy. Otwórz go w drugim programie CAD.</p>
   <label>Format<select id="cad-export-format"><option value="dwg">DWG — AutoCAD 2018</option><option value="dxf">DXF — AutoCAD 2018</option></select></label>
+  <label>Kolory instalacji<select id="cad-export-color-mode"><option value="white">Czytelne na białym tle</option><option value="original">Dokładne kolory z projektu</option></select></label>
+  <div class="field-pair"><label>Grubość linii CAD<select id="cad-export-line-weight"><option value="18">0,18 mm</option><option value="25">0,25 mm</option><option value="35" selected>0,35 mm</option><option value="50">0,50 mm</option><option value="70">0,70 mm</option></select></label>
+  <label>Szerokość tras (<span id="cad-export-width-unit">j. rys.</span>)<input id="cad-export-cable-width" type="number" required min="0" max="1000000000" step="any"></label></div>
+  <p class="microcopy">Szerokość graficzna tras działa także przy wyłączonych grubościach CAD. To sposób prezentacji, nie średnica kabla. Wpisz 0, aby użyć wyłącznie grubości CAD.</p>
   <label>Wysokość opisów (<span id="cad-export-text-unit">j. rys.</span>)<input id="cad-export-text-height" type="number" required min="0.00000001" max="1000000000" step="any"></label>
   <p class="microcopy">Rozmiar w jednostkach rysunku, niezależny od powiększenia. Dotyczy nazw kamer, punktów i flag kablowych; osobne opisy zachowują swój rozmiar.</p>
   <label class="switch-line"><input id="cad-export-details" type="checkbox"> Dołącz modele i parametry kamer</label>

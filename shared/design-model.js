@@ -73,6 +73,9 @@ export function validateDesign(design){
   if(!design.settings||!units.includes(design.settings.drawingUnit)||!units.slice(1).includes(design.settings.displayUnit))fail();
   if(design.settings.cadTextHeight!==undefined&&(!Number.isFinite(design.settings.cadTextHeight)||design.settings.cadTextHeight<1e-8||design.settings.cadTextHeight>1e9))fail();
   if(design.settings.cadCameraDetails!==undefined&&typeof design.settings.cadCameraDetails!=='boolean')fail();
+  if(design.settings.cadColorMode!==undefined&&!['original','white'].includes(design.settings.cadColorMode))fail();
+  if(design.settings.cadLineWeight!==undefined&&![18,25,35,50,70].includes(design.settings.cadLineWeight))fail();
+  if(design.settings.cadCableWidth!==undefined&&(!Number.isFinite(design.settings.cadCableWidth)||design.settings.cadCableWidth<0||design.settings.cadCableWidth>1e9))fail();
   return copy(design);
 }
 export function translateObject(object,dx,dy){

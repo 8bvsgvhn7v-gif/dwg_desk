@@ -1,5 +1,12 @@
 # Historia zmian
 
+## 1.3.3 — 2026-10-20
+
+- Eksport z opcją **Czytelne na białym tle**, domyślnie przyciemniającą jasne kolory instalacji. Można zachować dokładne kolory z projektu.
+- Wybór grubości linii CAD oraz szerokości graficznej tras w jednostkach modelu. Polilinie tras i symboli mają szerokość także przy wyłączonym wyświetlaniu grubości CAD; sektory widzenia pozostają delikatniejsze.
+- Ustawienia wyglądu eksportu są zapamiętywane w projekcie. Przebieg tras, długości, współrzędne i kolory lokalnej nakładki pozostają zachowane.
+- Testy sprawdzają kontrast, parametry linii i szerokości po konwersji DWG/DXF oraz zgodność z projektami starszych wersji.
+
 ## 1.3.2 — 2026-10-20
 
 - Naprawiony rozmiar opisów w eksportowanym CAD: wysokość wynika z jednostek modelu i wielkości symboli, zamiast z bieżącego powiększenia ekranu.

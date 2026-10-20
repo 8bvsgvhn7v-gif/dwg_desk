@@ -92,7 +92,7 @@ app.whenReady().then(async () => {
     { label: 'Widok', submenu: [{ label: 'Dopasuj rysunek (F)', click: () => action('fit') }, { label: 'Pomiar odległości (M)', click: () => action('measure') }, { type: 'separator' }, { role: 'togglefullscreen', label: 'Pełny ekran' }] },
     { label: 'Okno', submenu: [{ role: 'minimize', label: 'Minimalizuj' }, { role: 'zoom', label: 'Powiększ' }] }
   ]));
-  app.setAboutPanelOptions({ applicationName: 'DWG Desk', applicationVersion: '1.3.2', copyright: 'Lokalny podgląd DWG / DXF • AGPL-3.0-only', credits: 'Silnik: @flyfish-dev/cad-viewer, LibreDWG / mlightcad. Pomiar w płaszczyźnie XY. Źródła i licencje dołączone do wydania.' });
+  app.setAboutPanelOptions({ applicationName: 'DWG Desk', applicationVersion: '1.3.3', copyright: 'Lokalny podgląd DWG / DXF • AGPL-3.0-only', credits: 'Silnik: @flyfish-dev/cad-viewer, LibreDWG / mlightcad. Pomiar w płaszczyźnie XY. Źródła i licencje dołączone do wydania.' });
   createWindow();
   app.on('activate', () => { if (!win) createWindow(); });
 });

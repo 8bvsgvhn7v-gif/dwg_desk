@@ -44,7 +44,8 @@ Eksport obu formatów wymaga [ODA File Converter](https://www.opendesign.com/gue
 2. Wybierz **Zapisz DWG / DXF**.
 3. Wybierz **DWG** lub **DXF**. Domyślnie zaznaczone **Dołącz podkład DWG / DXF** zapisuje cały rysunek z instalacją. Wyłącz tę opcję tylko wtedy, gdy potrzebujesz samej instalacji.
 4. Sprawdź **Wysokość opisów** w jednostkach rysunku. Rozmiar nie zależy od zoomu; domyślnie wynika z wielkości symboli. Modele i parametry kamer możesz dołączyć osobnym checkboxem.
-5. Kliknij **Zapisz plik…**, wskaż nowy plik docelowy i poczekaj na komunikat zakończenia. W drugim programie otwórz nowy plik, domyślnie z końcówką `_projekt`.
+5. Dla białego tła pozostaw **Czytelne na białym tle**. Ustaw **Grubość linii CAD** i **Szerokość tras**; wpisanie 0 wyłącza szerokość graficzną polilinii. Szerokość służy prezentacji, nie określa średnicy kabla.
+6. Kliknij **Zapisz plik…**, wskaż nowy plik docelowy i poczekaj na komunikat zakończenia. W drugim programie otwórz nowy plik, domyślnie z końcówką `_projekt`.
 
 Wynik używa formatu **AutoCAD 2018**. Eksport zachowuje współrzędne i jednostkę modelu; nie skaluje rysunku do jednostki wyświetlania wyników. Wybranie otwartego pliku źródłowego jako celu jest blokowane.
 
@@ -57,11 +58,15 @@ Wynik używa formatu **AutoCAD 2018**. Eksport zachowuje współrzędne i jednos
 | Flaga kabla | Etykieta z długością z chwili eksportu i odnośnikiem. |
 | Własna warstwa | Osobna warstwa z kolorem, widocznością i blokadą. |
 
-Eksportowane są także ukryte warstwy robocze, z zachowaniem ich stanu. Nazwy warstw instalacji mają prefiks `DWGDesk_`; są normalizowane do znaków ASCII, a kolizje rozwiązywane numerem. Kolory RGB poszczególnych elementów pozostają zachowane. Przy eksporcie podkładu jego stany warstw pochodzą z pliku źródłowego — chwilowe ukrycie warstwy w przeglądarce nie usuwa jej z eksportu.
+Eksportowane są także ukryte warstwy robocze, z zachowaniem ich stanu. Nazwy warstw instalacji mają prefiks `DWGDesk_`; są normalizowane do znaków ASCII, a kolizje rozwiązywane numerem. Opcja **Dokładne kolory z projektu** zachowuje wartości RGB elementów. Domyślne **Czytelne na białym tle** przyciemnia jasne odcienie instalacji do kontrastu co najmniej 4,5:1 z bielą; nie zmienia kolorów lokalnej nakładki ani podkładu. Przy eksporcie podkładu jego stany warstw pochodzą z pliku źródłowego — chwilowe ukrycie warstwy w przeglądarce nie usuwa jej z eksportu.
 
 Program pracuje na kopiach tymczasowych. Konwerter działa lokalnie, z zablokowanym dostępem do sieci. Przed zapisaniem wyniku wykonywana jest kontrola struktury przez ponowną konwersję oraz porównanie liczby dodanych encji na warstwach; dla DWG sprawdzana jest także sygnatura pliku. To kontrola procesu eksportu, a nie gwarancja zachowania każdego nietypowego obiektu źródłowego.
 
 Wysokość opisów i wybór parametrów kamer zapisują się w lokalnym projekcie. Ustawiona wysokość dotyczy automatycznych nazw kamer i punktów oraz flag tras. Osobne obiekty **Opis** zachowują swój własny rozmiar.
+
+Ustawienia kolorów, grubości i szerokości również są zapamiętywane. Domyślna grubość CAD to 0,35 mm, a szerokość tras wynosi 1/4 sugerowanej wysokości opisów, niezależnie od zoomu. Kreski symboli mają połowę tej szerokości, najwyżej 1/10 rozmiaru symbolu. Okręgi zachowują typ CIRCLE i korzystają z grubości CAD. Kontury pól widzenia mają grubość 0,18 mm, bez dodatkowej szerokości polilinii.
+
+Wyświetlanie grubości CAD zależy od przeglądarki. Eksport włącza `$LWDISPLAY` i zapisuje grubość encji, a dodatkowa szerokość polilinii pomaga zachować widoczność tras przy wyłączonych grubościach. Przy bardzo dużym oddaleniu każdy detal może być mniejszy od piksela. Zapis parametrów potwierdzono po konwersji DWG/DXF; wygląd konkretnej aplikacji mobilnej wymaga sprawdzenia w tej aplikacji.
 
 ## Dalsza edycja i ograniczenia
 

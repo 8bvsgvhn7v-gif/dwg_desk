@@ -1,0 +1,55 @@
+{
+  "product": "DWG Desk",
+  "version": "1.3.3",
+  "platform": "macOS arm64",
+  "testedAt": "2026-10-20T10:57:24.687934+00:00",
+  "unitTests": {
+    "passed": 32,
+    "failed": 0
+  },
+  "packagedGuiChecks": {
+    "passed": 20,
+    "failed": 0
+  },
+  "scope": "Export appearance and existing CAD save workflow. Public demo drawings verify white-background contrast, original RGB mode, model-space widths, lineweights, persisted preferences, source protection, and DWG/DXF round trips. No private customer drawings are included. Appearance in a mobile CAD app has not been tested.",
+  "suites": {
+    "export": {
+      "version": "1.3.3",
+      "checks": [
+        "Changing the viewport zoom does not change the CAD label height",
+        "DXF label heights match model dimensions and omit optional camera metadata by default",
+        "DXF keeps exact RGB colors on cameras, sectors, cables and flags",
+        "DXF export contains the base, editable cable vertices, length flags, camera and Polish labels",
+        "Exported DXF reopens as ordinary CAD geometry without its local overlay",
+        "CAD text height persists when the source drawing is reopened",
+        "DWG retains exact RGB colors after conversion and independent WASM parsing",
+        "A real AutoCAD 2018 DWG reopens through the independent LibreDWG WASM reader",
+        "The Cmd+S menu action writes camera and cable geometry into a DWG that opens without the local project",
+        "Overlay-only export keeps the original drawing coordinates and excludes the base geometry",
+        "File save finishes and embeds a pending cable route together with the base",
+        "Explicit text height and optional camera parameters are embedded in CAD",
+        "Saving a file resets the full-drawing option after an installation-only export",
+        "Cancelling the native save dialog leaves the project open and unchanged",
+        "Choosing the source file as the export destination is rejected without modifying it",
+        "Readable-color DXF retains route widths and explicit lineweights with fine camera sectors",
+        "Export appearance leaves editable project colors and geometry unchanged",
+        "Color mode, stroke weight and model width persist after reopening",
+        "DWG conversion round trip retains contrast, lineweights and nonzero polyline widths",
+        "No renderer errors during the complete export workflow"
+      ],
+      "errors": [],
+      "files": [
+        "cad-demo-full.dxf",
+        "cad-demo-full.dwg",
+        "cad-installation-only.dxf",
+        "cad-save-pending-route.dxf",
+        "cad-contrast.dxf",
+        "cad-contrast.dwg"
+      ]
+    }
+  },
+  "artifactChecks": {
+    "adHocSignature": "passed",
+    "dmgChecksum": "passed"
+  }
+}

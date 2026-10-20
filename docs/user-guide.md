@@ -108,6 +108,8 @@ Zmiana wzorca dotyczy kolejnych wstawień. Już umieszczone elementy zachowują 
 
 Wybierz **Zapisz DWG / DXF** na górnym pasku lub **Cmd+S**, wybierz format i pozostaw zaznaczone dołączenie podkładu. Sprawdź **Wysokość opisów** w jednostkach rysunku — ten rozmiar nie zmienia się wraz z zoomem. Dodatkowe modele i parametry kamer są opcjonalne. Po kliknięciu **Zapisz plik…** wskaż nową nazwę. W drugim programie otwórz zapisany plik z instalacją, domyślnie z końcówką `_projekt`.
 
+Przy eksporcie na białe tło pozostaw **Czytelne na białym tle**. **Grubość linii CAD** oraz **Szerokość tras** pozwalają wzmocnić dodaną instalację. Szerokość w jednostkach rysunku służy prezentacji, a nie określeniu średnicy kabla. Wybierz **Dokładne kolory z projektu**, jeśli odbiorca potrzebuje identycznych wartości RGB. Ustawienia zapamiętują się dla danego projektu.
+
 Projekt z biblioteką i ustawieniami elementów zapisuje się na tym Macu automatycznie. Przycisk **Zapisz projekt lokalnie** w panelu Projekt wymusza ten lokalny zapis. Szczegóły i kopie zapasowe opisano w [instrukcji zapisu](data-and-export.md).
 
 ## Skróty

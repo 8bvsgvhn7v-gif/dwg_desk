@@ -18,15 +18,15 @@ DWG Desk pozwala otworzyć rysunek CAD, zmierzyć trasę i nanieść własne kab
 | Kamery i symbole | Wstawianie, przesuwanie, obrót, wskazywanie celu, kąt widzenia i zasięg. |
 | Kolory elementów | Własny kolor kamery, kabla, symbolu, punktu lub opisu albo kolor dziedziczony z warstwy. |
 | Lokalna biblioteka | Własne symbole i typy kabli do użycia na kolejnych rysunkach. |
-| Eksport | DWG/DXF 2018 z podkładem lub sama instalacja; osobno CSV z pomiarami. |
+| Eksport | DWG/DXF 2018 z podkładem lub sama instalacja, kontrast na białym tle i grubości linii; osobno CSV z pomiarami. |
 
 **Podkład pozostaje niezmieniony.** Dodane elementy zapisują się jako lokalna nakładka. Aby przekazać rysunek z instalacją innej osobie, użyj **Zapisz DWG / DXF**.
 
 ## Wymagania i instalacja
 
-Wydanie **1.3.2** przygotowano dla **macOS 13+ i Apple Silicon**. Nie przygotowano paczki dla komputerów Intel ani wydania Windows/Linux.
+Wydanie **1.3.3** przygotowano dla **macOS 13+ i Apple Silicon**. Nie przygotowano paczki dla komputerów Intel ani wydania Windows/Linux.
 
-1. Otwórz plik `DWG-Desk-1.3.2-mac-arm64.dmg` otrzymany z wydaniem.
+1. Otwórz plik `DWG-Desk-1.3.3-mac-arm64.dmg` otrzymany z wydaniem.
 2. Przeciągnij **DWG Desk** do **Aplikacji**.
 3. Uruchom program i wybierz **Otwórz rysunek** lub przeciągnij plik DWG/DXF do okna.
 
@@ -62,7 +62,7 @@ Sektor kamery jest rzutem geometrycznym — nie uwzględnia przeszkód ani wysok
 
 ## Weryfikacja wydania
 
-Dla 1.3.2 przeszło **29 testów logiki oraz 34 kontrole spakowanej aplikacji macOS**. Sprawdzono zapis pliku przez Cmd+S, stałe wysokości opisów, ponowny odczyt DWG/DXF, zapis lokalny i edycję instalacji. [Raport 1.3.2](docs/validation-1.3.2.json) opisuje zakres. Pozostaje dostępny [raport 1.3.1](docs/validation-1.3.1.json) z wcześniejszej weryfikacji kolorów i kamer. Raporty nie są deklaracją zgodności ze wszystkimi plikami DWG.
+W wersji 1.3.3 przeszły **32 testy logiki i 20 kontroli eksportu spakowanej aplikacji**. Weryfikacja obejmuje kontrast na białym tle, grubości linii i szerokości polilinii po konwersji DWG/DXF, zapamiętywanie ustawień oraz dotychczasowy zapis CAD. [Raport 1.3.3](docs/validation-1.3.3.json) podaje wyniki. Wcześniejsze raporty: [1.3.2](docs/validation-1.3.2.json) i [1.3.1](docs/validation-1.3.1.json). Raporty nie są deklaracją zgodności ze wszystkimi plikami DWG.
 
 ## Licencja
 

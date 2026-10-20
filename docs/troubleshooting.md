@@ -21,6 +21,10 @@
 | Flaga po edycji eksportu w CAD nie zmienia długości | Eksport zapisuje ją jako tekst. Dynamiczne przeliczanie działa w lokalnej nakładce DWG Desk. |
 | Widok nadal przesuwa się po zwolnieniu kółka | W aktualnej wersji gest kończy się po zwolnieniu przycisku i utracie aktywności okna. Jeśli problem wraca, podaj wersję macOS, aplikacji, model myszy i dokładny przebieg gestu. |
 
+## Linie instalacji są blade lub bardzo cienkie na telefonie
+
+W oknie **Zapisz DWG / DXF** wybierz **Czytelne na białym tle** i dodatnią **Szerokość tras**. Możesz zwiększyć **Grubość linii CAD** do 0,50 mm. Zapisz nowy plik i otwórz go ponownie na telefonie. Kolory dobrane do ciemnego tła mogą słabo kontrastować z bielą; sama grubość CAD może być wyłączona przez przeglądarkę. Nowe ustawienia eksportu są dostępne od wersji 1.3.3.
+
 ## Zgłoszenie błędu
 
 W [Issues](https://github.com/8bvsgvhn7v-gif/dwg_desk/issues) podaj wersję aplikacji i macOS, kroki odtworzenia, oczekiwany wynik oraz treść komunikatu. Pomocny jest mały, anonimowy rysunek pokazujący problem i informacja, czy występuje on również na przykładzie wbudowanym w program.

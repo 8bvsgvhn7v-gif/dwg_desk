@@ -1,4 +1,4 @@
-DWG Desk 1.3.2 — third-party notices
+DWG Desk 1.3.3 — third-party notices
 
 
 @flyfish-dev/cad-viewer 0.8.3 — AGPL-3.0-only
